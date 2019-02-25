@@ -81,9 +81,12 @@ module Recaptcha
     end
 
     def check_reply(reply, options)
+      Rails.logger.debug "Captcha reply: #{reply}"
+
       reply['success'].to_s == "true" &&
-        recaptcha_hostname_valid?(reply['hostname'], options[:hostname]) &&
-        (!reply['score'] || reply['score'] >= Recaptcha.configuration.minimum_score)
+        recaptcha_hostname_valid?(reply['hostname'], options[:hostname])
+
+      # && (!reply['score'] || reply['score'] >= Recaptcha.configuration.minimum_score)
     end
 
     def recaptcha_hostname_valid?(hostname, validation)
